@@ -1,10 +1,11 @@
+import { calcApi11 } from '@/services/calcApi11'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useProject } from '@/context/ProjectContext'
-import { calculateCrudeApi11To20, Api11CrudeResult } from '@/lib/api11_1_crude'
+import type { Api11CrudeResult } from '@/lib/api11_1_crude'
 import { cn } from '@/lib/utils'
 import { fcvLogService } from '@/services/fcvLogService'
 import { useAuth } from '@/hooks/use-auth'
@@ -71,6 +72,10 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>
 
+type CalcApi11Response =
+  | { ok: true; algorithmVersion: string; result: Api11CrudeResult }
+  | { ok: false; error?: string }
+
 // Constants for the Memorial
 const COEFFICIENTS_TABLE = [
   { k: 'K₀', value: '341,0957' },
@@ -114,10 +119,19 @@ export default function FcvCalculation() {
   const onSubmit = async (data: FormValues) => {
     try {
       setCalcError(null)
-      const res = calculateCrudeApi11To20({
+
+      const resp = (await calcApi11({
         tempFluidoC: data.tempFluidoC,
         massaEspObs_gcc: data.massaEspecificaObsGcCm3,
-      })
+      })) as CalcApi11Response
+
+      if (!resp || resp.ok !== true) {
+        setCalcError(resp?.error || 'Erro ao calcular FCV (Edge Function).')
+        setResult(null)
+        return
+      }
+
+      const res = resp.result
       setResult(res)
 
       // Automated Logging
@@ -131,7 +145,7 @@ export default function FcvCalculation() {
         })
       }
     } catch (error: any) {
-      setCalcError(error.message)
+      setCalcError(error?.message || 'Erro desconhecido.')
       setResult(null)
     }
   }
@@ -811,3 +825,4 @@ function ResultItem({
     </div>
   )
 }
+

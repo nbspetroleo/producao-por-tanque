@@ -10,7 +10,7 @@ export default defineConfig(({ mode }) => ({
     port: 8080,
   },
   experimental: {
-    enableNativePlugin: true
+    enableNativePlugin: true,
   },
   build: {
     minify: mode !== 'development',
@@ -24,9 +24,17 @@ export default defineConfig(({ mode }) => ({
       },
     },
   },
+
+  // ✅ ADICIONE AQUI (mesmo nível de "build", "plugins", "resolve")
+  test: {
+    environment: 'jsdom',
+  },
+
   plugins: [react()],
   define: {
-    'process.env.NODE_ENV': JSON.stringify(mode ?? process.env.NODE_ENV ?? 'production'),
+    'process.env.NODE_ENV': JSON.stringify(
+      mode ?? process.env.NODE_ENV ?? 'production',
+    ),
   },
   resolve: {
     alias: [
@@ -37,7 +45,8 @@ export default defineConfig(({ mode }) => ({
       {
         find: /zod\/v4\/core/,
         replacement: path.resolve(__dirname, 'node_modules', 'zod', 'v4', 'core'),
-      }
+      },
     ],
   },
 }))
+

@@ -1,3 +1,4 @@
+import { TestCalcApi11Button } from '@/components/TestCalcApi11Button'
 import { useState } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ProductionFieldManager } from '@/components/settings/ProductionFieldManager'
@@ -70,22 +71,32 @@ export default function Settings() {
           )}
           <TabsTrigger value="general">Geral</TabsTrigger>
         </TabsList>
+
         <TabsContent value="fields">
           <ProductionFieldManager />
         </TabsContent>
+
         <TabsContent value="wells">
           <WellManager />
         </TabsContent>
+
         <TabsContent value="transfer-categories">
           <TransferCategoryManager />
         </TabsContent>
+
         {currentProject && (
           <TabsContent value="collaborators">
             <CollaboratorManager />
           </TabsContent>
         )}
+
         <TabsContent value="general">
           <GeneralSettings />
+
+          {/* 🔧 TESTE TEMPORÁRIO DA EDGE FUNCTION */}
+          <div className="mt-6">
+            <TestCalcApi11Button />
+          </div>
         </TabsContent>
       </Tabs>
 
@@ -101,6 +112,7 @@ export default function Settings() {
                 Ações críticas que afetam os dados do projeto atual.
               </CardDescription>
             </CardHeader>
+
             <CardContent>
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 border border-destructive/20 rounded-lg bg-destructive/5 gap-4">
                 <div className="space-y-1">
@@ -120,6 +132,7 @@ export default function Settings() {
                       Limpar Dados
                     </Button>
                   </AlertDialogTrigger>
+
                   <AlertDialogContent>
                     <AlertDialogHeader>
                       <AlertDialogTitle>
@@ -141,10 +154,12 @@ export default function Settings() {
                         tabelas de arqueação serão mantidos.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
+
                     <AlertDialogFooter>
                       <AlertDialogCancel disabled={isDeleting}>
                         Cancelar
                       </AlertDialogCancel>
+
                       <AlertDialogAction
                         onClick={handleDeleteData}
                         className="bg-destructive text-destructive-foreground hover:bg-destructive/90"

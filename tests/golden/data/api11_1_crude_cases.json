@@ -1,0 +1,10 @@
+[
+  { "id": "case_001", "tempFluidoC": 0.0,   "massaEspObs_gcc": 0.999 },
+  { "id": "case_002", "tempFluidoC": 10.0,  "massaEspObs_gcc": 0.980 },
+  { "id": "case_003", "tempFluidoC": 20.0,  "massaEspObs_gcc": 0.950 },
+  { "id": "case_004", "tempFluidoC": 30.0,  "massaEspObs_gcc": 0.930 },
+  { "id": "case_005", "tempFluidoC": 42.0,  "massaEspObs_gcc": 0.920 },
+  { "id": "case_006", "tempFluidoC": 60.0,  "massaEspObs_gcc": 0.900 },
+  { "id": "case_007", "tempFluidoC": 80.0,  "massaEspObs_gcc": 0.880 },
+  { "id": "case_008", "tempFluidoC": 100.0, "massaEspObs_gcc": 0.870 }
+]
